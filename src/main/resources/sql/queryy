@@ -1,0 +1,33 @@
+create table block(
+    id_block serial primary key,
+    block_mere int,
+    longueur decimal(10,2),
+    largeur decimal(10,2),
+    hauteur decimal(10,2),
+    date_entree date,
+    prix_revient decimal(18,2),
+    etat int set default 0,
+    foreign key (block_mere) references block(id_block)
+);
+
+create table mvt_stock(
+    id_mvt_stock serial primary key,
+    designation varchar(30),
+    daty date,
+    origine int,
+    etat int,
+    foreign key (origine) references block(id_block)
+);
+
+create table mvt_stock_fille(
+    id_mvt_stock_fille serial primary key,
+    id_mere int,
+    entree int default 0,
+    sortie int default 0,
+    id_produit int,
+    prix_revient decimal(12,2),
+    foreign key (id_produit) references produit(id_produit),
+    foreign key (id_mere) references produit(id_mvt_stock)
+);
+
+donne moi un moyen de savoir le block originel qui a donnee chaque mvt_stock_fille, par originel je veux dire que prends sa mere jsuqu'a ce qu'il n'y a plus de mere
